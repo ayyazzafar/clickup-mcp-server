@@ -1,6 +1,13 @@
 # Changelog
 
 ## [Unreleased]
+- Added comprehensive Space Management functionality:
+  - Create new spaces with customizable features (due dates, time tracking, tags, etc.)
+  - Update space settings including name, color, privacy, and feature configuration
+  - Get space details by ID or name
+  - Delete spaces (with permanent deletion warning)
+  - Support for natural language colors in space creation/updates
+  - Automatic workspace hierarchy cache clearing on space modifications
 - Added comprehensive View Management functionality:
   - Create views at workspace, space, folder, or list levels
   - Support for all ClickUp view types (list, board, calendar, table, timeline, workload, activity, map, chat, gantt)

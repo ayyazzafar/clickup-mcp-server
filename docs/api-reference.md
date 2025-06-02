@@ -6,6 +6,7 @@ This document provides detailed information about all available tools, their par
 - [Task Management](#task-management)
 - [List Management](#list-management)
 - [Folder Management](#folder-management)
+- [Space Management](#space-management)
 - [Tag Management](#tag-management)
 - [View Management](#view-management)
 - [Document Management](#document-management)
@@ -828,6 +829,97 @@ Update the "Development Projects" folder to be named "Active Development Project
   "name": "Active Development Projects"
 }
 ```
+
+## Space Management
+
+| Tool | Description | Required Parameters | Optional Parameters |
+|------|-------------|-------------------|-------------------|
+| create_space | Create a new space | `name` | `color`, `private`, `multipleAssignees`, `features` |
+| get_space | Get space details | - | `spaceId` or `spaceName` |
+| update_space | Update space settings | - | `spaceId` or `spaceName`, `name`, `color`, `private`, `adminCanManage`, `multipleAssignees`, `features` |
+| delete_space | Delete a space permanently | - | `spaceId` or `spaceName` |
+
+### Space Parameters
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| name | string | Name of the space |
+| color | string | Space color (hex code or natural language like 'dark blue') |
+| private | boolean | Whether the space should be private |
+| multipleAssignees | boolean | Allow multiple assignees on tasks |
+| adminCanManage | boolean | Whether admins can manage the space |
+| features | object | Feature configuration for the space |
+
+### Feature Configuration
+
+The `features` object supports the following properties:
+- `dueDates`: Object with `enabled`, `startDate`, `remapDueDates`, `remapClosedDueDate`
+- `timeTracking`: Object with `enabled`
+- `tags`: Object with `enabled`
+- `timeEstimates`: Object with `enabled`
+- `checklists`: Object with `enabled`
+- `customFields`: Object with `enabled`
+- `remapDependencies`: Object with `enabled`
+- `dependencyWarning`: Object with `enabled`
+- `portfolios`: Object with `enabled`
+
+### Examples
+
+#### Creating a Space with Features
+
+```json
+{
+  "tool": "create_space",
+  "arguments": {
+    "name": "Engineering Team",
+    "color": "blue",
+    "multipleAssignees": true,
+    "features": {
+      "dueDates": {
+        "enabled": true,
+        "startDate": true
+      },
+      "timeTracking": {
+        "enabled": true
+      },
+      "tags": {
+        "enabled": true
+      }
+    }
+  }
+}
+```
+
+#### Updating Space Privacy
+
+```json
+{
+  "tool": "update_space",
+  "arguments": {
+    "spaceName": "HR Documents",
+    "private": true,
+    "color": "red"
+  }
+}
+```
+
+#### Getting Space Details
+
+```json
+{
+  "tool": "get_space",
+  "arguments": {
+    "spaceName": "Marketing"
+  }
+}
+```
+
+### Important Notes
+
+- **Deletion Warning**: Deleting a space permanently removes all folders, lists, and tasks within it. This action cannot be undone.
+- **Color Support**: Supports both hex codes (#FF0000) and natural language colors (red, dark blue, light green)
+- **Feature Dependencies**: Some features may require specific ClickUp plan levels
+- **Permissions**: Space creation and deletion require appropriate workspace permissions
 
 ## Tag Management
 

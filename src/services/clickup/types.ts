@@ -110,6 +110,89 @@ export interface ClickUpSpace {
 }
 
 /**
+ * Data for creating a space
+ */
+export interface CreateSpaceData {
+  name: string;
+  multiple_assignees?: boolean;
+  features?: {
+    due_dates?: {
+      enabled: boolean;
+      start_date?: boolean;
+      remap_due_dates?: boolean;
+      remap_closed_due_date?: boolean;
+    };
+    time_tracking?: {
+      enabled: boolean;
+    };
+    tags?: {
+      enabled: boolean;
+    };
+    time_estimates?: {
+      enabled: boolean;
+    };
+    checklists?: {
+      enabled: boolean;
+    };
+    custom_fields?: {
+      enabled: boolean;
+    };
+    remap_dependencies?: {
+      enabled: boolean;
+    };
+    dependency_warning?: {
+      enabled: boolean;
+    };
+    portfolios?: {
+      enabled: boolean;
+    };
+  };
+}
+
+/**
+ * Data for updating a space
+ */
+export interface UpdateSpaceData {
+  name?: string;
+  color?: string;
+  private?: boolean;
+  admin_can_manage?: boolean;
+  multiple_assignees?: boolean;
+  features?: {
+    due_dates?: {
+      enabled?: boolean;
+      start_date?: boolean;
+      remap_due_dates?: boolean;
+      remap_closed_due_date?: boolean;
+    };
+    time_tracking?: {
+      enabled?: boolean;
+    };
+    tags?: {
+      enabled?: boolean;
+    };
+    time_estimates?: {
+      enabled?: boolean;
+    };
+    checklists?: {
+      enabled?: boolean;
+    };
+    custom_fields?: {
+      enabled?: boolean;
+    };
+    remap_dependencies?: {
+      enabled?: boolean;
+    };
+    dependency_warning?: {
+      enabled?: boolean;
+    };
+    portfolios?: {
+      enabled?: boolean;
+    };
+  };
+}
+
+/**
  * Folder object as returned by the ClickUp API
  */
 export interface ClickUpFolder {

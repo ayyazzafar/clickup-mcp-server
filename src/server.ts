@@ -101,6 +101,13 @@ import {
   getViewTasksTool, handleGetViewTasks
 } from "./tools/view.js";
 
+import {
+  createSpaceTool, handleCreateSpace,
+  getSpaceTool, handleGetSpace,
+  updateSpaceTool, handleUpdateSpace,
+  deleteSpaceTool, handleDeleteSpace
+} from "./tools/space.js";
+
 import { Logger } from "./logger.js";
 import { clickUpServices } from "./services/shared.js";
 
@@ -193,6 +200,10 @@ export function configureServer() {
         updateViewTool,
         deleteViewTool,
         getViewTasksTool,
+        createSpaceTool,
+        getSpaceTool,
+        updateSpaceTool,
+        deleteSpaceTool,
         ...documentModule()
       ].filter(tool => !config.disabledTools.includes(tool.name))
     };
@@ -206,8 +217,8 @@ export function configureServer() {
 
   // Register CallTool handler with proper logging
   logger.info("Registering tool handlers", {
-    toolCount: 46,
-    categories: ["workspace", "task", "time-tracking", "list", "folder", "tag", "document", "view"]
+    toolCount: 50,
+    categories: ["workspace", "task", "time-tracking", "list", "folder", "tag", "document", "view", "space"]
   });
 
   server.setRequestHandler(CallToolRequestSchema, async (req) => {
@@ -328,6 +339,14 @@ export function configureServer() {
           return handleDeleteView(params);
         case "get_view_tasks":
           return handleGetViewTasks(params);
+        case "create_space":
+          return handleCreateSpace(params);
+        case "get_space":
+          return handleGetSpace(params);
+        case "update_space":
+          return handleUpdateSpace(params);
+        case "delete_space":
+          return handleDeleteSpace(params);
         default:
           logger.error(`Unknown tool requested: ${name}`);
           const error = new Error(`Unknown tool: ${name}`);

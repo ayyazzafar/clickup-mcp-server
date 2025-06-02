@@ -75,7 +75,7 @@ This is a Model Context Protocol (MCP) server that provides ClickUp integration.
 ## Available Services
 
 The following services are available:
-- **Workspace**: Hierarchy management and entity resolution
+- **Workspace**: Hierarchy management, entity resolution, and space operations
 - **Task**: Task CRUD operations, comments, attachments, bulk operations
 - **List**: List management within spaces and folders
 - **Folder**: Folder organization
@@ -84,6 +84,17 @@ The following services are available:
 - **Document**: Document and page management
 - **View**: View creation and management (list, board, calendar, table, etc.)
 - **Member**: Member lookup and assignee resolution
+
+## Space Management
+
+The server now supports full space CRUD operations:
+- Create new spaces with customizable features
+- Update space settings, privacy, and colors
+- Configure space features (due dates, time tracking, tags, etc.)
+- Delete spaces (with caution - permanent deletion)
+- Natural language color support
+
+See `docs/space-management.md` for detailed space usage examples.
 
 ## View Management
 

@@ -16,3 +16,4 @@ export * from './folder.js';
 export * from './tag.js';
 export * from './member.js';
 export * from './view.js';
+export * from './space.js';
