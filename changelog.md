@@ -1,6 +1,14 @@
 # Changelog
 
 ## [Unreleased]
+- Added comprehensive View Management functionality:
+  - Create views at workspace, space, folder, or list levels
+  - Support for all ClickUp view types (list, board, calendar, table, timeline, workload, activity, map, chat, gantt)
+  - Configure views with grouping, filtering, sorting, and custom display settings
+  - Update existing views with new configurations
+  - Retrieve tasks with view-specific filters and sorting applied
+  - Delete views when no longer needed
+  - Name-based lookup for views within parent containers
 - Added member management tools: `getWorkspaceMembers`, `findMemberByName`, and `resolveAssignees`.
 - Task creation now supports the `assignees` parameter, allowing assignment of users at creation time.
 - Improved error handling and response formatting for member and task handlers.

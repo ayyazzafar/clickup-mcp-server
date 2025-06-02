@@ -92,6 +92,15 @@ import {
   resolveAssigneesTool, handleResolveAssignees
 } from "./tools/member.js";
 
+import {
+  createViewTool, handleCreateView,
+  getViewsTool, handleGetViews,
+  getViewTool, handleGetView,
+  updateViewTool, handleUpdateView,
+  deleteViewTool, handleDeleteView,
+  getViewTasksTool, handleGetViewTasks
+} from "./tools/view.js";
+
 import { Logger } from "./logger.js";
 import { clickUpServices } from "./services/shared.js";
 
@@ -178,6 +187,12 @@ export function configureServer() {
         getWorkspaceMembersTool,
         findMemberByNameTool,
         resolveAssigneesTool,
+        createViewTool,
+        getViewsTool,
+        getViewTool,
+        updateViewTool,
+        deleteViewTool,
+        getViewTasksTool,
         ...documentModule()
       ].filter(tool => !config.disabledTools.includes(tool.name))
     };
@@ -191,8 +206,8 @@ export function configureServer() {
 
   // Register CallTool handler with proper logging
   logger.info("Registering tool handlers", {
-    toolCount: 40,
-    categories: ["workspace", "task", "time-tracking", "list", "folder", "tag", "document"]
+    toolCount: 46,
+    categories: ["workspace", "task", "time-tracking", "list", "folder", "tag", "document", "view"]
   });
 
   server.setRequestHandler(CallToolRequestSchema, async (req) => {
@@ -301,6 +316,18 @@ export function configureServer() {
           return handleFindMemberByName(params);
         case "resolve_assignees":
           return handleResolveAssignees(params);
+        case "create_view":
+          return handleCreateView(params);
+        case "get_views":
+          return handleGetViews(params);
+        case "get_view":
+          return handleGetView(params);
+        case "update_view":
+          return handleUpdateView(params);
+        case "delete_view":
+          return handleDeleteView(params);
+        case "get_view_tasks":
+          return handleGetViewTasks(params);
         default:
           logger.error(`Unknown tool requested: ${name}`);
           const error = new Error(`Unknown tool: ${name}`);

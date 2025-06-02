@@ -7,6 +7,8 @@ This document provides detailed information about all available tools, their par
 - [List Management](#list-management)
 - [Folder Management](#folder-management)
 - [Tag Management](#tag-management)
+- [View Management](#view-management)
+- [Document Management](#document-management)
 - [Workspace Organization](#workspace-organization)
 - [Prompts](#prompts)
 - [Common Parameters](#common-parameters)
@@ -967,6 +969,165 @@ Add the "feature" tag to the task "Implement Authentication"
    ```
 
 5. **Supported Color Names**: Basic colors (red, blue, green, etc.) and common variations (dark blue, light green, etc.) are supported.
+
+## View Management
+
+| Tool | Description | Required Parameters | Optional Parameters |
+|------|-------------|-------------------|-------------------|
+| create_view | Create a new view | name, type, parentType | parentId/parentName, groupBy, groupDirection, filters, columns, settings |
+| get_views | Get all views in a container | parentType | parentId/parentName |
+| get_view | Get view details | - | viewId or (viewName + parent info) |
+| update_view | Update view configuration | - | viewId or (viewName + parent info), name, groupBy, filters, columns, settings |
+| delete_view | Delete a view | - | viewId or (viewName + parent info) |
+| get_view_tasks | Get tasks from a view | - | viewId or (viewName + parent info), page |
+
+### View Parameters
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| name | string | Name of the view |
+| type | string | View type: list, board, calendar, table, timeline, workload, activity, map, chat, gantt |
+| parentType | string | Where to create/find the view: team, space, folder, list |
+| parentId | string | ID of the parent container |
+| parentName | string | Name of the parent (alternative to parentId) |
+| groupBy | string | Field to group tasks by (e.g., 'status', 'assignee', 'priority') |
+| groupDirection | number | Sort direction: 1 for ascending, -1 for descending |
+| filters | object | Filter configuration with operator and conditions |
+| columns | array | Column configuration for table/board views |
+| settings | object | View-specific settings (showAssignees, showSubtasks, etc.) |
+
+### Examples
+
+#### Creating a Sprint Board View
+
+```json
+{
+  "tool": "create_view",
+  "arguments": {
+    "name": "Sprint 23 Board",
+    "type": "board",
+    "parentType": "space",
+    "parentName": "Development",
+    "groupBy": "status",
+    "settings": {
+      "showAssignees": true,
+      "showSubtasks": 1
+    }
+  }
+}
+```
+
+#### Creating a Filtered View
+
+```json
+{
+  "tool": "create_view",
+  "arguments": {
+    "name": "High Priority Tasks",
+    "type": "list",
+    "parentType": "team",
+    "filters": {
+      "operator": "AND",
+      "conditions": [
+        {
+          "field": "priority",
+          "operator": "equals",
+          "value": 1
+        },
+        {
+          "field": "status",
+          "operator": "not_equals",
+          "value": "closed"
+        }
+      ]
+    }
+  }
+}
+```
+
+#### Getting All Views in a Space
+
+```json
+{
+  "tool": "get_views",
+  "arguments": {
+    "parentType": "space",
+    "parentName": "Marketing"
+  }
+}
+```
+
+#### Updating a View's Grouping
+
+```json
+{
+  "tool": "update_view",
+  "arguments": {
+    "viewName": "Product Backlog",
+    "parentType": "list",
+    "parentName": "Backlog",
+    "groupBy": "priority",
+    "groupDirection": -1
+  }
+}
+```
+
+#### Getting Tasks from a View
+
+```json
+{
+  "tool": "get_view_tasks",
+  "arguments": {
+    "viewId": "view_123456",
+    "page": 0
+  }
+}
+```
+
+### View Types and Features
+
+1. **List View**: Traditional task list with customizable columns
+2. **Board View**: Kanban-style board grouped by status or custom fields
+3. **Calendar View**: Tasks displayed on a calendar by due dates
+4. **Table View**: Spreadsheet-like view with sortable columns
+5. **Timeline View**: Gantt chart for project planning
+6. **Workload View**: Team capacity and resource allocation
+7. **Activity View**: Recent activity and updates
+8. **Map View**: Location-based task visualization
+9. **Chat View**: Conversation-style task discussions
+10. **Gantt View**: Traditional Gantt chart with dependencies
+
+### Filter Configuration
+
+Views support complex filtering with logical operators:
+
+```json
+{
+  "filters": {
+    "operator": "OR",
+    "conditions": [
+      {
+        "field": "tags",
+        "operator": "contains",
+        "value": "urgent"
+      },
+      {
+        "field": "due_date",
+        "operator": "less_than",
+        "value": 1735689600000
+      }
+    ]
+  }
+}
+```
+
+### Important Notes
+
+- Views created at workspace level (parentType: "team") are accessible across all spaces
+- View names should be unique within their parent container
+- The `protected` field in view responses indicates system-protected views
+- Some view types may have specific limitations based on ClickUp plan
+- Views preserve their configuration including filters, grouping, and display settings
 
 ## Document Management
 

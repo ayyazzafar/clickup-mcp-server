@@ -683,4 +683,175 @@ export interface DocumentPagesOptions {
   content_format?: 'text/md' | 'text/html';
   max_page_depth?: number;
   pageIds: string[];
+}
+
+/**
+ * View types supported by ClickUp
+ */
+export type ViewType = 
+  | 'list' 
+  | 'board' 
+  | 'calendar' 
+  | 'table' 
+  | 'timeline' 
+  | 'workload' 
+  | 'activity' 
+  | 'map' 
+  | 'chat' 
+  | 'gantt'
+  | 'doc'
+  | 'embed'
+  | 'form';
+
+/**
+ * View object as returned by the ClickUp API
+ */
+export interface ClickUpView {
+  id: string;
+  name: string;
+  type: ViewType;
+  parent: {
+    id: string;
+    type: 'team' | 'space' | 'folder' | 'list';
+  };
+  grouping: {
+    field: string;
+    dir: 1 | -1;
+    collapsed?: string[];
+    ignore?: boolean;
+  };
+  filters: {
+    op: string;
+    filters: Array<{
+      field: string;
+      op: string;
+      value: any;
+    }>;
+  };
+  columns?: {
+    field: string;
+    type?: string;
+  }[];
+  team_sidebar?: {
+    assignees?: string[];
+    assigned_comments?: boolean;
+    unassigned_tasks?: boolean;
+  };
+  settings?: {
+    show_task_locations?: boolean;
+    show_subtasks?: number;
+    show_subtask_parent_names?: boolean;
+    show_closed_subtasks?: boolean;
+    show_assignees?: boolean;
+    show_images?: boolean;
+    collapse_empty_columns?: boolean;
+    me_mode?: boolean;
+    me_checklists?: boolean;
+  };
+  date_created: string;
+  creator: ClickUpUser;
+  protected: boolean;
+  orderindex: number;
+}
+
+/**
+ * Data for creating a view
+ */
+export interface CreateViewData {
+  name: string;
+  type: ViewType;
+  parent: {
+    id: string;
+    type: 'team' | 'space' | 'folder' | 'list';
+  };
+  grouping?: {
+    field: string;
+    dir?: 1 | -1;
+    collapsed?: string[];
+    ignore?: boolean;
+  };
+  filters?: {
+    op?: string;
+    filters?: Array<{
+      field: string;
+      op: string;
+      value: any;
+    }>;
+  };
+  columns?: {
+    field: string;
+    type?: string;
+  }[];
+  team_sidebar?: {
+    assignees?: string[];
+    assigned_comments?: boolean;
+    unassigned_tasks?: boolean;
+  };
+  settings?: {
+    show_task_locations?: boolean;
+    show_subtasks?: number;
+    show_subtask_parent_names?: boolean;
+    show_closed_subtasks?: boolean;
+    show_assignees?: boolean;
+    show_images?: boolean;
+    collapse_empty_columns?: boolean;
+    me_mode?: boolean;
+    me_checklists?: boolean;
+  };
+}
+
+/**
+ * Data for updating a view
+ */
+export interface UpdateViewData {
+  name?: string;
+  grouping?: {
+    field: string;
+    dir?: 1 | -1;
+    collapsed?: string[];
+    ignore?: boolean;
+  };
+  filters?: {
+    op?: string;
+    filters?: Array<{
+      field: string;
+      op: string;
+      value: any;
+    }>;
+  };
+  columns?: {
+    field: string;
+    type?: string;
+  }[];
+  team_sidebar?: {
+    assignees?: string[];
+    assigned_comments?: boolean;
+    unassigned_tasks?: boolean;
+  };
+  settings?: {
+    show_task_locations?: boolean;
+    show_subtasks?: number;
+    show_subtask_parent_names?: boolean;
+    show_closed_subtasks?: boolean;
+    show_assignees?: boolean;
+    show_images?: boolean;
+    collapse_empty_columns?: boolean;
+    me_mode?: boolean;
+    me_checklists?: boolean;
+  };
+}
+
+/**
+ * Response when retrieving views
+ */
+export interface ViewsResponse {
+  views: ClickUpView[];
+}
+
+/**
+ * Response when retrieving view tasks
+ */
+export interface ViewTasksResponse {
+  tasks: ClickUpTask[];
+  last_page?: boolean;
 } 

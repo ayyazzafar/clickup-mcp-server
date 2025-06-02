@@ -50,4 +50,5 @@ export const {
   workspace: workspaceService,
   timeTracking: timeTrackingService,
   document: documentService,
+  view: viewService,
 } = clickUpServices;
